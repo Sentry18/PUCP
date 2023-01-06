@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://ares.pucp.edu.pe/pucp/jsp/Intranet.jsp -->
+<html style="overflow:hidden;" lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Pontificia Universidad Católica del Perú - Campus Virtual PUCP</title>
+    
+    
+    <meta http-equiv="Expires=-1" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="no-cache">
+		
+    <link href="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap Core CSS -->	
+    <link href="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/IntranetCabecera.css" rel="stylesheet"><!-- PUCP cabecera CSS -->	
+	<link href="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/font-awesome.min.css" rel="stylesheet"><!-- Fonts awesome-->
+	
+	<script type="text/javascript" src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/jquery-1.9.1.min.js.descarga"></script>
+    <script language="JavaScript" type="text/javascript" src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/pucp.js.descarga"></script>
+    <script language="JavaScript" type="text/javascript" src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/Intranet.js.descarga"></script>      
+
+    <script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/bootstrap.min.js.descarga"></script><!-- Bootstrap Core JavaScript -->	
+	<script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/heartcode-canvasloader-min-0.9.1.js.descarga"></script><!-- CanvasLoader -->	
+	<script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/IntranetCabecera.js.descarga"></script><!-- JS pucp cabecera -->
+	<script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/pucpDisponibilidadIdioma_es.js.descarga"></script>	
+	<script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/Grupos.js.descarga"></script>
+    <script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/GruposChat.js.descarga"> </script>    
+    <script src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/chatLink.js.descarga"></script>			
+	<script language="JavaScript" type="text/javascript">
+
+function login()
+{
+  var u = "";
+  var i = "";
+  var s = "";
+  var r = "";
+  var param = "";
+  var a = "Ingresar";  
+  var ruta = "/login?accion=";
+  var d, w;
+  var nw="1";
+  var logoutlogin="0";
+  var diAux = "di=es";
+  var rutaFinal = "";
+  
+  if (arguments[0] && typeof arguments[0] == "object" ) {
+    for(var n in arguments[0]) {
+      if (n=="r") {r=arguments[0][n];}
+      else if (n=="nw") {nw=arguments[0][n];}
+	    else if (n=="logoutlogin") {logoutlogin=arguments[0][n];}
+      else if (n=="di") { if (arguments[0][n]=="en") { diAux = "di=en"; } else if (arguments[0][n]=="pt") { diAux = "di=pt"; } }
+      else if (n=="a" && arguments[0][n]=="IngresarRNU" ) {a="IngresarRNU";}
+      else if (n=="a" && arguments[0][n]=="IngresarRDU" ) {a="IngresarRDU"; ruta = "/en?accion=";}
+      else { 
+	      param += "&" + n + "=" + (n!="u"?arguments[0][n]:arguments[0][n].replace(/\&/g, "PucpAmpersand").replace(/\?/g, "PucpQuestion")); 
+		    if (n=="s") {s=arguments[0][n];}
+		    if (n=="u") {u=arguments[0][n];}
+	    }
+    }
+    param += "&" + diAux;
+  } else {
+    if (arguments[0]) { u = arguments[0]; }
+    if (arguments[1]) { i = arguments[1]; }
+    if (arguments[2]) { s = arguments[2]; }
+    if (arguments[3]) { r = arguments[3]; }
+    param = "&u=" + u.replace(/\&/g, "PucpAmpersand").replace(/\?/g, "PucpQuestion") + "&i=" + i + "&s=" + s;
+  }
+
+  s = s.toLowerCase();  
+
+  if (a=='IngresarRNU' || a=='IngresarRDU') {
+    rutaFinal = ruta + a + param;
+    nw = "0";
+  } else if (s=='' || s=='cv') {
+    rutaFinal = '/pucp/jsp/Intranet.jsp?url=' + u.replace(/\&/g, "PucpAmpersand").replace(/\?/g, "PucpQuestion");
+    nw = "0";
+  } else if (s=='ch') {
+	
+    rutaFinal = 'http://chat.pucp.edu.pe/config/fvalidacion_chat.php?url=' + u;
+  } else if (s=='opv') {
+    nw = "0";
+
+
+
+    if (u.indexOf("https://open.pucp.edu.pe") == 0) rutaFinal = u;
+
+  } else {
+    alert('El servicio al que desea ingresar no es reconocido.');
+    rutaFinal = '/pucp/jsp/Tutorial.jsp';
+  }
+
+  if (nw == "0") { 
+    if (logoutlogin == "0") { 
+	    top.location.href = rutaFinal;
+	  } else {
+	    if (logoutlogin == "1") {
+	      if (diAux == "di=en") {
+		      if (!confirm('If you have another open session on this computer at the moment, please consider that it might be closed automatically.')) 
+		        return;
+		    } else {
+		      if (!confirm('Si en estos momentos tiene una sesión en este equipo, esta se cerrará automáticamente para crear una nueva.')) 
+		        return;
+        }
+	    } 
+    
+      if (rutaFinal.substring(0, 4) == 'http') { 
+	      top.location.href = "/pucp/usuarios/uswlogin/uswlogin?accion=CerrarSesion&"+diAux+"&urlredirect="+rutaFinal;
+      } else { 
+        top.location.href = "/pucp/usuarios/uswlogin/uswlogin?accion=CerrarSesion&"+diAux+"&urlredirect=https://ares.pucp.edu.pe"+rutaFinal;
+      }
+	  }
+  } else {
+    d = new Date();
+    w=window.open(rutaFinal, "login" + d.valueOf(), "location=yes,status=yes,resizable=yes,toolbar=yes,scrollbars=yes,top=0,left=0,width=790,height=520", 1 );  
+    if (r == "1") { return w; }
+  }
+}
+
+</script>		
+    <script language="JavaScript" type="text/javascript"> 
+      function getSessionId()
+      {
+        return "0000Xat10uhAh797OtyRL28t2VT:1dool3346";  
+      }
+      function cerrarSesion()
+      {
+        //top.frames['IntranetFrameInterval'].iSalir=1;
+        top.window.location.href='/pucp/usuarios/uswlogin/uswlogin?accion=CerrarSesion';
+      }
+      if (window.name.substring(0, 5)=='login'
+           || document.referrer.indexOf("/pucp/procpers/ppwproce/ppwproce") != -1 )  // Inscripcion en linea de procesos.
+      { 
+        top.window.name='cv'; 
+      }
+	  $(function(){
+		var cl = new CanvasLoader('icono_espera');
+		cl.setColor('#6798a6'); // default is '#000000'
+		cl.setDiameter(72); // default is 40
+		cl.setDensity(43); // default is 40
+		cl.setRange(0.9); // default is 1.3
+		cl.setSpeed(3); // default is 2
+		cl.setFPS(25); // default is 24
+		cl.show(); // Hidden by default
+		
+		// This bit is only for positioning - not necessary
+		var loaderObj = document.getElementById("canvasLoader");
+  		loaderObj.style.position = "relative";  		
+		
+		}
+	  );
+	  
+	  function getIdiomaActual(){
+		  
+		return "es";
+	  }	  	 
+    </script>
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0"></head>  
+	<body style="margin: 0;overflow: hidden;">	
+		<div id="header" role="banner"> 	
+				<div class="pucpMenuUsuario" id="menu-toggle" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Menu">
+					<div class="pucpTituloMenu"> MENÚ </div>
+					<div>
+						<div class="pucpBotonMenu"></div>
+						<div class="pucpBotonMenu"></div>
+						<div class="pucpBotonMenu"></div>
+					</div>
+				</div>
+
+				<div class="pucpDatosUsuario">
+
+					<p class="pucpNombreCampus"> CAMPUS VIRTUAL
+					</p>
+					<p class="pucpNombreUsuario" style="max-width: 1001px;">WALDE V RENZO</p>
+				</div>
+				
+				
+
+				<div class="pucpBotonCerrarSesion">
+					<span class="cerrar-sesion" id="cerrar-sesion" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/usuarios/uswlogin/uswlogin?accion=CerrarSesion&#39;);" data-toggle="tooltip" data-placement="bottom" title="" aria-hidden="true" data-original-title="Cerrar sesión"><img id="img-logout" src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/iconoLogout.png"></span>				
+				</div>
+
+				<div class="pucpLogo">
+				</div>
+		</div>   
+		
+		<div id="wrapper" style="padding: 88px 0px 0px;">
+			<div id="sidebar-wrapper" role="navigation" style="height: 515px;">	
+				
+
+
+
+
+
+
+
+
+
+<ul class="sidebar-nav menuNavPrincipal">
+	
+	<li>
+		<a id="matricula" onclick="javascript:actualizarIframe(&#39;/pucp/prematri/pmwprinc/pmwprinc?accion=MostrarPortal&#39;);">Matrícula</a>
+	</li>			
+	
+	<li>
+		<a id="cursoactividades" onclick="javascript:actualizarIframe(&#39;/pucp/ocr/ocwmcurs/ocwmcurs?accion=Ingresar&#39;);">Cursos y actividades</a>
+	</li>	
+	<li>
+		<a id="agenda" onclick="javascript:actualizarIframe(&#39;/pucp/eventos/evwevnts/evwevnts?accion=IngresarMiAgenda&#39;);">Calendario personal</a>
+	</li>
+	<li>
+		<a id="documentos" onclick="javascript:expandirContraerSubMenu(1,&#39;subdocumentos&#39;,&#39;flecha-documentos&#39;);" role="menu">Documentos<i class="fa fa-caret-right" id="flecha-documentos"></i></a>
+		<ul id="subdocumentos" class="submenu-nivel-1" style="display:none;">
+			<li>
+				<a id="docpersonal" onclick="javascript:mostrarDriveGPUCP(&#39;0000Xat10uhAh797OtyRL28t2VT:1dool3346&#39;);">Personales</a>
+			</li>
+			<li>
+				<a id="doccursacti" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/document/dowdocum/dowdocum?accion=VerCursos&#39;);">Cursos y actividades</a>
+			</li>
+			<li>
+				<a id="docfacuouni" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/pubweb/puwpubli/puwpubli?accion=IngresarADocUnidades&#39;);">Facultades y otras unidades</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a id="correo" onclick="javascript:mostrarCorreoGPUCP(&#39;0000Xat10uhAh797OtyRL28t2VT:1dool3346&#39;);">Correo</a>
+	</li>		
+	<li>
+		<a id="pagpersonal" onclick="javascript:actualizarIframe(&#39;/pucp/general/gewpealu/gewpealu?accion=ElegirPanel&amp;misdatos=1&#39;);">Página personal</a>
+	</li>
+	<li>
+		<a id="miuniversidad" onclick="javascript:expandirContraerSubMenu(1,&#39;submiuniversidad&#39;,&#39;flecha-miuniversidad&#39;);" role="menu">Universidad<i class="fa fa-caret-right" id="flecha-miuniversidad"></i></a>
+		<ul id="submiuniversidad" class="submenu-nivel-1" style="display:none;">
+			<li>
+				<a id="personas" onclick="javascript:actualizarIframe(&#39;/pucp/general/gewpealu/gewpealu?accion=Ingresar&amp;enintranet=1&#39;);">Personas</a>
+			</li>
+			<li>
+				<a id="cursos" onclick="javascript:expandirContraerSubMenu(2,&#39;subcursos&#39;,&#39;flecha-cursos&#39;);" role="menu">Cursos <i class="fa fa-caret-right" id="flecha-cursos"></i></a>
+				<ul id="subcursos" class="submenu-nivel-2" style="display:none;">
+				<li>
+					<a id="busqcursosreg" onclick="javascript:actualizarIframe(&#39;/pucp/ocr/ocwbucur/ocwbucur?accion=Ingresar&#39;);">Cursos regulares</a>
+				</li>
+				<li>
+					<a id="busqactividades" onclick="javascript:actualizarIframe(&#39;/pucp/procpers/ppwproce/ppwproce?accion=CursosInternet&amp;TipoProceso=001&#39;);">Actividades</a>
+				</li>
+				</ul>
+			</li>
+			<li>
+				<a id="docBusq" onclick="javascript:actualizarIframe(&#39;/pucp/pubweb/puwpubli/puwpubli?accion=Busqueda&amp;enIntranet=1&#39;);">Documentos</a>
+			</li>
+			<li>
+										
+				
+				<a id="uniacad" onclick="javascript:expandirContraerSubMenu(2,&#39;subuniacad&#39;,&#39;flecha-uniacad&#39;);" role="menu">Unidades académicas<i class="fa fa-caret-right" id="flecha-uniacad"></i></a>
+				<ul id="subuniacad" class="submenu-nivel-2" style="display:none;">
+					
+					<li>
+						<a id="uniacad20" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/general/gewfacul/gewfacul?accion=AbrirPanel&amp;facultad=20&amp;enintranet=1&#39;);">Estudios Generales Ciencias</a>
+					</li>					
+					
+					<li>
+						<a id="uniacadvertodas" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/general/gewfacul/gewfacul?accion=Ingresar&amp;enintranet=1&#39;);">Ver todas</a>
+					</li>			
+				</ul>
+				
+			</li>
+			<li>
+			<a id="sag" onclick="javascript:actualizarIframe(&#39;/pucp/estadist/eswsagcv/eswsagcv?accion=AbrirPanel&#39;);">Estadísticas y S.A.G.</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a id="traacaalum" onclick="javascript:actualizarIframe(&#39;/pucp/solservi/sowtraca/sowtraca?accion=ListarTramites&#39;);">Trámites académicos</a>
+	</li>
+	<li>
+		<a id="servicios" onclick="javascript:actualizarIframe(&#39;/pucp/solservi/sowatenc/sowatenc?accion=Panel&#39;);">Servicios</a>
+	</li>
+	<li class="configuracion">
+		<a id="configuracion" onclick="javascript:expandirContraerSubMenu(1,&#39;subconfiguracion&#39;,&#39;flecha-configuracion&#39;);" role="menu">Configuración/Settings<i class="fa fa-caret-right" id="flecha-solicitudes"></i></a>
+		<ul id="subconfiguracion" class="submenu-nivel-1" style="display:none;">
+			<li>
+				<a id="cambcontraseÃ±a" onclick="javascript:actualizarIframe.call(this,&#39;/pucp/usuarios/uswclave/uswclave?accion=Ingresar&#39;);">Contraseña/Password</a>
+			</li>	
+			
+		</ul>
+	</li>	
+	<li>
+		<a id="manualuso" onclick="javascript:cargarTutorial();">Manual de ayuda</a>
+	</li>
+	<li>
+		<a id="cerrarsesion" onclick="javascript:actualizarIframe(&#39;/pucp/usuarios/uswlogin/uswlogin?accion=CerrarSesion&#39;);">Cerrar sesión</a>
+	</li>
+</ul>							
+			</div>
+			<div id="page-content-wrapper" class="page-content-wrapper" style="height: 515px;">
+				<div id="fondo_icono_espera" style="display: none;">
+					<div id="icono_espera">
+										
+					<div id="canvasLoader" style="display: block; position: relative;"><canvas width="72" height="72"></canvas><canvas width="72" height="72" style="display: none;"></canvas></div></div>					
+				</div>				
+				<iframe id="frame_mid" name="frame_mid" src="./Pontificia Universidad Católica del Perú - Campus Virtual PUCP_files/ocwmcurs.html" style="width: 1366px; height: 515px; border: 0px;"></iframe>				
+				<noframes> 
+				  <p>Esta página usa marcos, pero su explorador no los admite.</p>				
+			  </noframes> 
+			</div>
+		</div>
+	
+  
+
+
+</body></html>
